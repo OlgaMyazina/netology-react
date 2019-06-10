@@ -8,27 +8,16 @@ const renderIf = predicate => elemOrThunk =>
 const AuthForm = (props) => {
   const {onAuth} = props;
 
-  /*
-  * в поле «Электронная почта» любых символов кроме латинских букв, цифр, символов @, ., _ и -;
-  * */
-  const formatEmail = (event) => {
-    const field = event.currentTarget;
+  const format = (event) => {
+    const field = event.currentTarget,
+      regEmail = /[\w\.\@\-]+/g,
+      regPassword = /\w+/g;
 
     if (!field.value) return;
 
-    const reg = field.value.match(/[\w\.\@\-]+/g);
-    field.value = reg.join('')
-  };
-
-  /*
-  * в поле «Пароль» любых символов кроме латинских букв, цифр и символа _.
-  * */
-  const formatPassword = (event) => {
-    const field = event.currentTarget;
-    if (!field.value) return;
-
-    const reg = field.value.match(/\w+/g);
-    field.value = reg.join('');
+    const regType = field.type == 'email' ? regEmail : regPassword;
+    const reg = field.value.match(regType);
+    field.value = reg ? reg.join('') : '';
   };
 
   //проверка: передан и функция
@@ -58,14 +47,14 @@ const AuthForm = (props) => {
       <div className="Input">
         <input type="email"
                placeholder="Электронная почта"
-               onChange={formatEmail}
+               onChange={format}
                ref={field => emailField = field}/>
         <label></label>
       </div>
       <div className="Input">
         <input required type="password"
                placeholder="Пароль"
-               onChange={formatPassword}
+               onChange={format}
                ref={field => passwordField = field}/>
         <label></label>
       </div>
@@ -75,19 +64,4 @@ const AuthForm = (props) => {
       </button>
     </form>
   )
-}
-
-/*
-* Форма не должна отправляться на сервер ни одним из возможных способов
-* (клик по кнопке «Войти» или нажатие клавиши Enter в одном из полей ввода).
-* При отправке формы необходимо вызвать обработчик события onAuth,
-* если он передан в атрибуты и является функцией.
-* В него следует передать первым аргументом объект пользователя имеющий следующие свойства:
-
-name — имя пользователя,
-email — электронная почта,
-password — пароль.
-Необходимо запретить ввод (поля ввода должны просто игнорировать эти символы):
-
-в поле «Электронная почта» любых символов кроме латинских букв, цифр, символов @, ., _ и -;
-в поле «Пароль» любых символов кроме латинских букв, цифр и символа _.*/
+};
