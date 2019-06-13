@@ -22,30 +22,38 @@ const FeedbackForm = (props) => {
     return data.snacks.includes(value)
   };
 
-  let salutationField, nameField, emailField, subjectField, messageField, snacksField, salutationForm, snacksForm;
 
-  const saveForm = (e) => {
-    e.preventDefault();
-    salutationField = salutationForm.querySelector('input[type=radio]:checked');
-    snacksField = snacksForm.querySelector('input[type=checkbox]:checked');
-    const formField = {
-      salutation: salutationField.value,
-      name: nameField.value,
-      email: emailField.value,
-      subject: subjectField.value,
-      message: messageField.value,
-      snacks: snacksField.value,
-    };
+  const handlerSaveForm = (event) => {
+    event.preventDefault();
+
+    const formField = {},
+      formElement = event.target;
+    formField.snacks = [];
+
+    Array.from(formElement).forEach(element => {
+      if (!element) return;
+      if (!element.name) return;
+      if ((element.type === 'radio') && (!element.checked)) {
+        return;
+      }
+      if (element.type === 'checkbox') {
+        if ((element.checked))
+          formField.snacks.push(element.value);
+        return;
+      }
+      formField[element.name] = element.value;
+    });
+
     onSubmit(JSON.stringify(formField));
-  }
+  };
 
 
   return (
-    <form className="content__form contact-form">
+    <form className="content__form contact-form" onSubmit={handlerSaveForm}>
       <div className="testing">
         <p>Чем мы можем помочь?</p>
       </div>
-      <div className="contact-form__input-group" ref={el => salutationForm = el}>
+      <div className="contact-form__input-group">
         <input className="contact-form__input contact-form__input--radio"
                defaultChecked={isSalutation("Мистер")}
                id="salutation-mr"
@@ -74,8 +82,7 @@ const FeedbackForm = (props) => {
                id="name"
                name="name"
                type="text"
-               defaultValue={data.name}
-               ref={el => nameField = el}/>
+               defaultValue={data.name}/>
       </div>
       <div className="contact-form__input-group">
         <label className="contact-form__label" htmlFor="email">Адрес электронной почты</label>
@@ -83,16 +90,14 @@ const FeedbackForm = (props) => {
                id="email"
                name="email"
                type="email"
-               defaultValue={data.email}
-               ref={el => emailField = el}/>
+               defaultValue={data.email}/>
       </div>
       <div className="contact-form__input-group">
         <label className="contact-form__label" htmlFor="subject">Чем мы можем помочь?</label>
         <select className="contact-form__input contact-form__input--select"
                 id="subject"
                 name="subject"
-                defaultValue={data.subject}
-                ref={el => subjectField = el}>
+                defaultValue={data.subject}>
           <option value="У меня проблема">У меня проблема</option>
           <option value="У меня важный вопрос">У меня важный вопрос</option>
         </select>
@@ -104,11 +109,10 @@ const FeedbackForm = (props) => {
                   name="message"
                   rows="6"
                   cols="65"
-                  defaultValue={data.message}
-                  ref={el => messageField = el}>
+                  defaultValue={data.message}>
         </textarea>
       </div>
-      <div className="contact-form__input-group" ref={el => snacksForm = el}>
+      <div className="contact-form__input-group">
         <p className="contact-form__label--checkbox-group">Хочу получить:</p>
         <input className="contact-form__input contact-form__input--checkbox"
                id="snacks-pizza"
@@ -127,7 +131,7 @@ const FeedbackForm = (props) => {
         />
         <label className="contact-form__label contact-form__label--checkbox" htmlFor="snacks-cake">Пирог</label>
       </div>
-      <button className="contact-form__button" type="submit" onClick={saveForm}>Отправить сообщение!</button>
+      <button className="contact-form__button" type="submit">Отправить сообщение!</button>
       <output id="result"/>
     </form>
   )
