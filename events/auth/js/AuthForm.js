@@ -9,7 +9,7 @@ const AuthForm = (props) => {
   const {onAuth} = props;
 
   const format = (event) => {
-    const field = event.currentTarget,
+    const field = event.target,
       regEmail = /[\w\.\@\-]+/g,
       regPassword = /\w+/g;
 
@@ -25,40 +25,43 @@ const AuthForm = (props) => {
     return renderIf(onAuth) == null;
   };
 
-  let nameField, emailField, passwordField;
-
-  const onSubmit = (event) => {
+  const handlerSubmit = (event) => {
     event.preventDefault();
-    if (!checkOnAuth()) return;
-    const user = {
-      name: nameField,
-      email: emailField,
-      password: passwordField,
-    };
+    if (checkOnAuth()) return;
+
+    const user = {};
+
+    Array.from(event.target).forEach(element => {
+      if (element.type === 'submit') return;
+      if (element.type === 'text')
+        user.name = element.value;
+      else {
+        user[element.type] = element.value;
+      }
+
+    });
     onAuth(JSON.stringify(user));
   };
 
   return (
-    <form className="ModalForm" action="/404/auth/" method="POST">
+    <form className="ModalForm" action="/404/auth/" method="POST" onSubmit={handlerSubmit}>
       <div className="Input">
-        <input required type="text" placeholder="Имя" ref={field => nameField = field}/>
+        <input required type="text" placeholder="Имя"/>
         <label></label>
       </div>
       <div className="Input">
         <input type="email"
                placeholder="Электронная почта"
-               onChange={format}
-               ref={field => emailField = field}/>
+               onChange={format}/>
         <label></label>
       </div>
       <div className="Input">
         <input required type="password"
                placeholder="Пароль"
-               onChange={format}
-               ref={field => passwordField = field}/>
+               onChange={format}/>
         <label></label>
       </div>
-      <button type="submit" onClick={onSubmit}>
+      <button type="submit">
         <span>Войти</span>
         <i className="fa fa-fw fa-chevron-right"></i>
       </button>
