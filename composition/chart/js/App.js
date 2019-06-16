@@ -154,8 +154,7 @@ class App extends React.Component {
                 classItem="Charts--item"
                 className="Charts horizontal"
                 isHorisontal={true}/>
-
-
+                
         <div className="Legend">
           {labels.map((label, labelIndex) => {
             return (
