@@ -4,7 +4,7 @@ const Menu = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="#">{props.title}{' '}
-        <span style={{fontSize:'60%'}}>v{props.version}</span>
+        <span style={{fontSize: '60%'}}>v{props.version}</span>
       </a>
 
       <ul className="navbar-nav mr-auto">
@@ -35,4 +35,21 @@ Menu.propTypes = {
     name: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired
   })),
+};
+
+Menu.defaultProps = {
+  items: [
+    {
+      name: 'Google',
+      url: 'https://google.com'
+    },
+    {
+      name: 'Яндекс',
+      url: 'https://yandex.ru'
+    }
+  ],
+  version: "01.03",
+  handleSearch: (e) => {
+    e.preventDefault()
+  },
 };

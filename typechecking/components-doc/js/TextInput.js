@@ -9,3 +9,21 @@ const TextInput = props => {
     </div>
   )
 };
+
+TextInput.propTypes = {
+  label: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'email', 'password']),
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  required: PropTypes.bool,
+};
+
+TextInput.defaultProps = {
+  label: "Наименование",
+  type: "text",
+  name: "default",
+  onChange: (e) => e.preventDefault(),
+  value: "",
+  required: false,
+};
