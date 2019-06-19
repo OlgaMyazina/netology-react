@@ -1,3 +1,7 @@
+const ButtonUX = antd.Button;
+
 const Button = () => (
-  <button>Отправить</button>
+  <div>
+    <ButtonUX>Отправить</ButtonUX>
+  </div>
 );

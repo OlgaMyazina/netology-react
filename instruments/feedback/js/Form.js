@@ -21,12 +21,12 @@ class Form extends React.Component {
   }
 
   handleForm() {
-    setTimeout(function() {
-      const { name, text } = this.state
-      console.log(name, text)
+    setTimeout(()=> {
+      const { name, text } = this.state;
+      console.log(name, text);
 
       this.setState({ done: false })
-    }, 1000)
+    }, 1000);
   }
 
   handleNameChange(e) {
@@ -38,9 +38,9 @@ class Form extends React.Component {
   }
 
   render() {
-    const { done } = this.state
+    const { done } = this.state;
 
-    console.log(this.state)
+    console.log(this.state);
 
     return (
       <main className="container">
