@@ -1,9 +1,7 @@
 "use strict";
 
 const ArticlePage = ({match}) => {
-  const article = articles.find(a => {
-    return a.id === match.params.id
-  });
+  const article = articles.find(a => a.id == match.params.id);
   return (
     <div>
       {article &&
