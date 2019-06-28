@@ -1,6 +1,6 @@
 const App = () => (
   <main className="container">
-    <Site />
+    <Generator />
   </main>
 );
   
