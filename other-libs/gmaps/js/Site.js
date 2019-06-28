@@ -22,7 +22,7 @@ class Site extends React.Component {
           <p>Будем рады видеть вас в одном из наших офисов</p>
         </header>
         <main className="map">
-          <Map points={this.state.offices} />
+          <GMap points={this.state.offices} />
         </main>
         <button className="button" onClick={this.getOffices}>Обновить местоположение офисов</button>
       </div>

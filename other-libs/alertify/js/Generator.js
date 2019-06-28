@@ -1,4 +1,4 @@
-class Site extends React.Component {
+class Generator extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,6 +34,9 @@ class Site extends React.Component {
 
   generate() {
     const newId = makeid(random(5, 43, false));
+
+    console.log(`test`,newId.length);
+    Alert(newId.length);
 
     this.setState(prevState => ({
       ids: [...prevState.ids, newId],
